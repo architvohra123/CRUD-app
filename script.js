@@ -9,6 +9,7 @@ function validateForm(){
         alert("Name is required");
         return false;
     }
+
     if(age == ""){
         alert("Age is required");
         return false;
@@ -17,10 +18,12 @@ function validateForm(){
         alert("Age cannot be zero or less");
         return false;
     }
+
     if(address==""){
         alert("Address is required");
         return false;
     }
+
     if(email==""){
         alert("Email is required");
         return false;
@@ -33,7 +36,7 @@ function validateForm(){
     return true;
 }
 
-// function to show data
+// function to show data from local storage
 function showData(){
     var peopleList;
     if(localStorage.getItem("peopleList") == null){
@@ -51,16 +54,17 @@ function showData(){
         html += "<td>" + element.age + "</td>";
         html += "<td>" + element.address + "</td>";
         html += "<td>" + element.email + "</td>";
-        html += '<td><button onclick="deleteData(' + index + ')" class="btn btn-danger">Delete</button><button onclick="updateData(' + index + ')" class="btn btn-warning m-2">Edit</button></td>'
+        html += '<td><button onclick="deleteData(' + index +')" class="btn btn-danger">Delete</button><button onclick="updateData(' + index + ')" class="btn btn-warning m-2">Edit</button></td>';
         html += "</tr>";
     });
-    document.querySelector(".tbody").innerHTML = html;
+    console.log("ok ji");
+    document.querySelector("#crudTable tbody").innerHTML = html;
 }
 
 //loads all data when document or page load
 document.onload = showData();
 
-//function to add data
+//function to add data to local storage
 function AddData(){
     //if form is valid
     if(validateForm() == true){
@@ -88,6 +92,65 @@ function AddData(){
         document.getElementById("age").value = "";
         document.getElementById("address").value = "";
         document.getElementById("email").value = "";
-        
+    }
+}
+
+//function to delete data from local storage
+function deleteData(index){
+    var peopleList;
+    if(localStorage.getItem("peopleList") == null){
+        peopleList=[];
+    }else{
+        peopleList = JSON.parse(localStorage.getItem("peopleList"));
+    }
+
+    peopleList.splice(index, 1);
+    localStorage.setItem("peopleList", JSON.stringify(peopleList));
+    showData();
+}
+
+//function to update data in local storage
+function updateData(index){
+    //submit will hide and update button will appear
+    document.getElementById("Submit").style.display = "none";
+    document.getElementById("Update").style.display = "block";
+    
+    
+    var peopleList;
+    if(localStorage.getItem("peopleList") == null){
+        peopleList=[];
+    }else{
+        peopleList = JSON.parse(localStorage.getItem("peopleList"));
+    }
+
+    document.getElementById("name").value = peopleList[index].name;
+    document.getElementById("age").value = peopleList[index].age;
+    document.getElementById("address").value = peopleList[index].address;
+    document.getElementById("email").value = peopleList[index].email;
+
+    document.querySelector("#Update").onclick = function(){
+        if(validateForm()==true){
+            peopleList[index].name=document.getElementById("name").value;
+            peopleList[index].age=document.getElementById("age").value;
+            peopleList[index].address=document.getElementById("address").value;
+            peopleList[index].email=document.getElementById("email").value;
+            
+            localStorage.setItem("peopleList", JSON.stringify(peopleList));
+
+            showData();
+            alert("Data Updated at S.no->"+index+1);
+
+
+            //empty all the fields
+            document.getElementById("name").value="";
+            document.getElementById("age").value="";
+            document.getElementById("address").value="";
+            document.getElementById("email").value="";
+            
+            
+            //update will hide and submit button will appear
+            document.getElementById("Submit").style.display = "block";
+            document.getElementById("Update").style.display = "none";
+        }
     }
 }
