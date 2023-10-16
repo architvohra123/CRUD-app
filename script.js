@@ -95,6 +95,7 @@ function AddData(){
     }
 }
 
+
 //function to delete data from local storage
 function deleteData(index){
     var peopleList;
@@ -138,7 +139,7 @@ function updateData(index){
             localStorage.setItem("peopleList", JSON.stringify(peopleList));
 
             showData();
-            alert("Data Updated at S.no->"+index+1);
+            alert("Data Updated at S.no->"+(index+1));
 
 
             //empty all the fields
@@ -151,6 +152,8 @@ function updateData(index){
             //update will hide and submit button will appear
             document.getElementById("Submit").style.display = "block";
             document.getElementById("Update").style.display = "none";
+
+            
         }
     }
 }
