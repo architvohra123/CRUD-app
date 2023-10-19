@@ -102,7 +102,7 @@ function generateCalendar(year, month){                                 // gener
     const lastDay = new Date(year, month, 0);                           //date object of selected year n month of last date        
     const daysInMonth = lastDay.getDate();                              //number of days in month (29, 28, 30, 31);
     const startingDay = firstDay.getDay();                              //day on 1st date of that month
-
+    const endDay=lastDay.getDay();
     const calendarBody =document.getElementById("calendar-body");       //select tbody element
     const monthYear =document.getElementById("month-year");             //select th to show which date we are currently on
     calendarBody.innerHTML="";                                              
@@ -184,6 +184,12 @@ function generateCalendar(year, month){                                 // gener
         cell.addEventListener("mouseout", function(){
             hoverOut(cell, i, dd, mm, yy);
         });
+    }
+    
+    for(let i=endDay;i<6;i++){
+        const cell=document.createElement("td");
+        cell.textContent="";
+        calendarBody.lastChild.appendChild(cell);
     }
 }
 

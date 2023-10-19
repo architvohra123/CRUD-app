@@ -23,18 +23,11 @@ function loadFromLocalStorage() {
 // Load data from local storage when the page loads
 loadFromLocalStorage();
 
-// Update local storage whenever 'hasEvent' or 'eventData' change
-function updateLocalStorage() {
-    saveToLocalStorage();
-}
-
-
-
 // Function to display the list of events
 function displayEvents() {
     eventsList.innerHTML = '';
 
-    if (Object.keys(eventData).length === 0) {
+    if (Object.keys(eventData).length == 0) {
         eventsList.textContent = 'No events till now.';
         return;
     }
@@ -69,7 +62,7 @@ function updateEvent(event) {
     
     if (updatedEvent !== null) {
         eventData[date] = updatedEvent;
-        updateLocalStorage();
+        saveToLocalStorage();
         displayEvents();
     }
 }
@@ -80,7 +73,7 @@ function deleteEvent(event) {
     if (confirm(`Are you sure you want to delete the event for ${date}?`)) {
         delete eventData[date];
         delete hasEvent[date];
-        updateLocalStorage();
+        saveToLocalStorage();
         displayEvents();
     }
 }

@@ -1,8 +1,8 @@
-*{
-    /* font-family: sans-serif; */
-}
+
 body{
-    background-image: "C:/Users/Acer/Downloads/a3.jpg";
+    background-image: url('a3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 table{
     border-collapse: collapse;
