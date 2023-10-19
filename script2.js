@@ -29,24 +29,15 @@ function loadFromLocalStorage() {                                           //fe
     }
 }
 
-// Load data from local storage when the page loads
-loadFromLocalStorage();
-
-// Update local storage whenever 'hasEvent' or 'eventData' change
-function updateLocalStorage() {
-    saveToLocalStorage();
-}
+loadFromLocalStorage();                                                     // Load data from local storage when the page loads                                     
 
 
-
-
-// Get references to the year-select and month-select elements
-const yearSelect = document.getElementById("year-select");
+const yearSelect = document.getElementById("year-select");                  //select drop down elements of both year and month list
 const monthSelect = document.getElementById("month-select");
 
-// Function to populate the year drop-down list
-function populateYearSelect() {
-    const startYear = year-30; // Set the start year as per your requirements
+
+function populateYearSelect() {                                             //Populate the year drop-down list
+    const startYear = year-30; 
     const currentYear = year;
 
     // Clear existing options
@@ -60,17 +51,15 @@ function populateYearSelect() {
         yearSelect.appendChild(option);
     }
 
-    // Set the selected year to the current year
+    // Set the selected year to current year
     yearSelect.value = currentYear;
 }
 
-// Function to populate the month drop-down list
-function populateMonthSelect() {
-    // const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+function populateMonthSelect() {                                            //Populate the month drop-down list
+    
     // Clear existing options
     monthSelect.innerHTML = '';
-
     // Add options for each month
     for (let month = 1; month <= 12; month++) {
         const option = document.createElement("option");
@@ -78,20 +67,19 @@ function populateMonthSelect() {
         option.textContent = monthNames[month - 1];
         monthSelect.appendChild(option);
     }
-
     // Set the selected month to the current month (add 1 to get the correct index)
     monthSelect.value = new Date().getMonth() + 1;
 }
 
-// Call the functions to populate the year and month drop-down lists
+                                                                        // Calling both functions to populate drop-down list
 populateYearSelect();
 populateMonthSelect();
 
 
-yearSelect.addEventListener("change", updateCalendar);
+yearSelect.addEventListener("change", updateCalendar);                  // updation of calendar on changing selected month/year
 monthSelect.addEventListener("change", updateCalendar);
 
-// Function to update the calendar based on the selected year and month
+                                                                        //Update the calendar based on the selected year and month
 function updateCalendar() {
     const selectedYear = parseInt(yearSelect.value, 10);
     const selectedMonth = parseInt(monthSelect.value, 10);
@@ -103,95 +91,67 @@ function updateCalendar() {
 
 
 
-function generateCalendar(year, month){
+function generateCalendar(year, month){                                 // generate calendar with given year and month
     const currentDate = new Date();
-    const dd=currentDate.getDate();
-    const mm=currentDate.getMonth()+1;
-    const yy=currentDate.getFullYear();
-    const firstDay = new Date(year, month-1, 1);
-    const lastDay = new Date(year, month, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDay = firstDay.getDay();
 
-    const calendarBody =document.getElementById("calendar-body");
-    const monthYear =document.getElementById("month-year");
-    calendarBody.innerHTML="";
+    const dd=currentDate.getDate();
+    const mm=currentDate.getMonth()+1;                                  //current dd/mm/yy
+    const yy=currentDate.getFullYear();
+
+    const firstDay = new Date(year, month-1, 1);                        //date object of selected year n month of 1st date 
+    const lastDay = new Date(year, month, 0);                           //date object of selected year n month of last date        
+    const daysInMonth = lastDay.getDate();                              //number of days in month (29, 28, 30, 31);
+    const startingDay = firstDay.getDay();                              //day on 1st date of that month
+
+    const calendarBody =document.getElementById("calendar-body");       //select tbody element
+    const monthYear =document.getElementById("month-year");             //select th to show which date we are currently on
+    calendarBody.innerHTML="";                                              
     monthYear.textContent = monthNames[month-1]+" "+year;
 
-    calendarBody.appendChild(document.createElement("tr"));
+    calendarBody.appendChild(document.createElement("tr"));             //insert a row in tbody
 
-    for(let i=0;i<startingDay;i++){                                             // for filling up empty cells
-        const cell = document.createElement("td");
+    for(let i=0;i<startingDay;i++){                                             // for filling up empty cells of month 
+        const cell = document.createElement("td");                              // creating cell to insert cell-content in that td of tr
         cell.textContent="";
         calendarBody.lastChild.appendChild(cell);
     }
 
-    let day=1;
+    let day=1;                                                                  //days start from (int) 1 to total days in month 
     for(let i=0;i<=6-startingDay;i++){                                          // for filling up first row of cells
         const cell = document.createElement("td");
         cell.textContent=day;
 
-        const icon=document.createElement("i");
-        icon.className="bi bi-emoji-laughing";
+        const icon=document.createElement("i");                                 // if there was an event to that corresponding cell
+        icon.className="bi bi-emoji-laughing";                                  // we will display an icon to highlight that cell
         icon.style.display="none";
         const date=new Date(year, month - 1, cell.textContent);
-        const formattedDate = date.toLocaleDateString("en-GB");
-        if(hasEvent[formattedDate]){
+        const formattedDate = date.toLocaleDateString("en-GB");                 //converting date obj into key used in hasEvent{} 
+        if(hasEvent[formattedDate]){                                            //check if event is there for that cell
             icon.style.display="";
         }
         cell.append(icon);
 
-        if(i==0 && startingDay==0) cell.style.color="red";
-        if(day==dd && month==mm && yy==year){
-            cell.style.backgroundColor="#D3D3D3";
+        if(i==0 && startingDay==0) cell.style.color="red";                      //for sundays cell content should be red
+        if(day==dd && month==mm && yy==year){                                   
+            cell.style.backgroundColor="#D3D3D3";                               //if it is today's date it should be highlighted
         }
-        calendarBody.lastChild.appendChild(cell);
+        calendarBody.lastChild.appendChild(cell);                               //last child of tbody->tr is appended with this new td
         day++;
 
-        cell.addEventListener("mouseover", function() {
-            if(cell.style.backgroundColor=="lime"){
-                return;
-            }
-            cell.style.backgroundColor = "blue";
-            cell.style.color = "white";
+        cell.addEventListener("mouseover", function() {                         // on hover cell becomes highlighted
+            hoverIn(cell);
         });
-        cell.addEventListener("click", function() {
-            currSelected=cell.textContent;
-            const selected=document.getElementById("selected");
-            selected.innerHTML=`Event Data for ${year} ${monthNames[month-1]} ${cell.textContent}`;
-            cell.style.backgroundColor="lime";
-            if(prevD!=null && prevD!=cell){
-                prevD.style.backgroundColor = "";
-                prevD.style.color = "";
-                if((i-(cell.textContent-prevD.textContent))%7==0){
-                    prevD.style.color="red";
-                }
-                if(prevD.textContent==dd && month==mm && yy==year){
-                    prevD.style.backgroundColor="#D3D3D3";
-                }
-            }
-            prevD=cell;
-            showEventForm(new Date(year, month - 1, cell.textContent));
+        cell.addEventListener("click", function() {                             //select the cell
+            clickCell(cell, i, dd, mm, yy);                                     //DISPLAY FORM FOR TAKING USER INPUT
         });
-        cell.addEventListener("mouseout", function() {
-            if(cell.style.backgroundColor=="lime"){
-                return;
-            }
-
-            cell.style.backgroundColor = "";
-            cell.style.color = "";
-            if(i%7==0 && startingDay==0){
-                cell.style.color="red";
-            }
-            if(cell.textContent==dd && month==mm && yy==year){
-                cell.style.backgroundColor="#D3D3D3";
-            }
+        cell.addEventListener("mouseout", function() {                          // un-highlight the cell  
+            hoverOut(cell, i, dd, mm, yy);
         });
     }
 
 
     for(let i = 0; day<=daysInMonth; day++, i++){                                   // for filling rest of the rows
-        if((i)%7==0){
+        if((i)%7==0){                                                               // performing similar actions same as adding first row
             calendarBody.appendChild(document.createElement("tr"));
         }
         const cell = document.createElement("td");
@@ -216,40 +176,52 @@ function generateCalendar(year, month){
         calendarBody.lastChild.appendChild(cell);
 
         cell.addEventListener("mouseover", function(){
-            if(cell.style.backgroundColor=="lime") return;
-            cell.style.backgroundColor = "blue";
-            cell.style.color = "white";
+            hoverIn(cell);
         });
         cell.addEventListener("click", function() {
-            currSelected=cell.textContent;
-            const selected=document.getElementById("selected");
-            selected.innerHTML=`Event Data for ${year} ${monthNames[month-1]} ${cell.textContent}`;
-            cell.style.backgroundColor="lime";
-            if(prevD!=null && prevD!=cell){
-                prevD.style.backgroundColor = "";
-                prevD.style.color = "";
-                if((i-(cell.textContent-prevD.textContent))%7==0){
-                    prevD.style.color="red";
-                }
-                if(prevD.textContent==dd && month==mm && yy==year){
-                    prevD.style.backgroundColor="#D3D3D3";
-                }
-            }
-            prevD=cell;
-            showEventForm(new Date(year, month - 1, cell.textContent));
+            clickCell(cell, i, dd, mm, yy);
         });
-        cell.addEventListener("mouseout", function() {
-            if(cell.style.backgroundColor=="lime") return;
-            cell.style.backgroundColor = "";
-            cell.style.color = "";
-            if(i%7==0){
-                cell.style.color="red";
-            }
-            if(cell.textContent==dd && month==mm && yy==year){
-                cell.style.backgroundColor="#D3D3D3";
-            }
+        cell.addEventListener("mouseout", function(){
+            hoverOut(cell, i, dd, mm, yy);
         });
     }
+}
+
+function hoverOut(cell, i, dd, mm, yy){
+    if(cell.style.backgroundColor=="lime") return;
+    cell.style.backgroundColor = "";
+    cell.style.color = "";
+    if(i%7==0){
+        cell.style.color="red";
+    }
+    if(cell.textContent==dd && month==mm && yy==year){
+        cell.style.backgroundColor="#D3D3D3";
+    }
+}
+
+function hoverIn(cell){
+    if(cell.style.backgroundColor=="lime") return;
+    cell.style.backgroundColor = "blue";
+    cell.style.color = "white";
+}
+
+function clickCell(cell, i, dd, mm, yy){
+    currSelected=cell.textContent;
+    const selected=document.getElementById("selected");
+    selected.innerHTML=`Event Data for ${year} ${monthNames[month-1]} ${cell.textContent}`;
+    cell.style.backgroundColor="lime";
+    if(prevD!=null && prevD!=cell){
+        prevD.style.backgroundColor = "";
+        prevD.style.color = "";
+        if((i-(cell.textContent-prevD.textContent))%7==0){
+            prevD.style.color="red";
+        }
+        if(prevD.textContent==dd && month==mm && yy==year){
+            prevD.style.backgroundColor="#D3D3D3";
+        }
+    }
+    prevD=cell;
+    showEventForm(new Date(year, month - 1, cell.textContent));
 }
 
 document.onload = generateCalendar(year, month);
@@ -271,7 +243,7 @@ function incMonth(){
 function showEventForm(date) {
     const eventForm = document.getElementById("event-form");
     const eventInput = document.getElementById("event-input");
-    const eventDataDisplay = document.getElementById("event-data"); // New
+    const eventDataDisplay = document.getElementById("event-data");
 
     eventForm.style.display = "block";
     // Retrieve event data from the eventData object based on the selected date
@@ -282,7 +254,7 @@ function showEventForm(date) {
     eventDataDisplay.textContent = eventDataForDate;
 
 
-    eventForm.onsubmit = function (e) {
+    eventForm.onsubmit = function (e) {                                             //Creating a key value pair in hash map for new entry
         e.preventDefault();
         const eventDescription = eventInput.value;
         if (eventDescription) {
@@ -295,7 +267,7 @@ function showEventForm(date) {
             // Update the event data section after adding an event
             eventDataDisplay.textContent = eventDescription;
             generateCalendar(date.getFullYear(), date.getMonth()+1);
-            updateLocalStorage();
+            saveToLocalStorage();
         }
     };
 
@@ -303,7 +275,7 @@ function showEventForm(date) {
     // eventInput.value = eventDataForDate;
 }
 
-const deleteEvent=document.getElementById("deleteEvent");
+const deleteEvent=document.getElementById("deleteEvent");                       //for deletingthe event corresponding to its date in hash map
 deleteEvent.addEventListener("click", function(){
     const currDate=new Date(year, month - 1, currSelected);
     const formattedDate=currDate.toLocaleDateString("en-GB");

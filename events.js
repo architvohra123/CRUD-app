@@ -43,10 +43,12 @@ function displayEvents() {
         const event = eventData[date];
         const eventItem = document.createElement('div');
         eventItem.innerHTML = `
-            <p>Date: ${date}</p>
-            <p>Event: ${event}</p>
-            <button class="update-event" data-date="${date}">Update</button>
-            <button class="delete-event" data-date="${date}">Delete</button>
+            <div style="background-color: #D3D3D3; border-radius:2%; height:125px; width:75%; margin-left:3%; padding: 5px;">
+                <h5>Date: ${date}</h5>
+                <h5>Event: ${event}</h5>
+                <button class="update-event btn btn-warning" data-date="${date}">Update</button>
+                <button class="delete-event btn btn-danger" data-date="${date}">Delete</button>
+            </div><hr>
         `;
 
         // Add event listeners for update and delete buttons

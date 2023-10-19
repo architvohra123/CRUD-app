@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Calendar</title>
     <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -22,7 +22,7 @@
             <select id="month-select"></select>
         </div>
         <div class="today">
-            <button id="today">View Today</button>
+            <button id="today"class="btn btn-primary">View Today</button>
         </div>
 
         <div class="table">
@@ -33,7 +33,7 @@
                         <th colspan="5" style="text-align: center" id="month-year">October 2023</th>
                         <th colspan="1"><i class="bi bi-arrow-right" id="right-month" onclick="incMonth()"></i></th>
                     </tr>
-                    <tr>
+                    <tr class="days">
                         <th>Sun</th>
                         <th>Mon</th>
                         <th>Tue</th>
@@ -48,8 +48,8 @@
         </div>
 
         <div id="event-display">
-            <h2 id="selected" style="background-color: yellowgreen;">Event Data for Selected Date</h2>
-            <p id="event-data"></p>
+            <h2 id="selected" style="background-color: yellowgreen;">Add Event to any date</h2>
+            <h5 id="event-data"></h5>
         </div>
         
 
@@ -63,9 +63,12 @@
                 <button class="btn btn-danger" id="deleteEvent">Delete</button>
             </form>
         </div>
+        <div class="show-all">
+            <button onclick="viewAllEvents()" class="btn btn-success">Show All Events</button>
+        </div>
     </div> 
     
-    <button onclick="viewAllEvents()">Show All Events</button>
+    
     <script>
         function viewAllEvents() {
             window.location.href = 'events.html';

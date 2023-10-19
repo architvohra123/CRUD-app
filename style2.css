@@ -1,6 +1,13 @@
+*{
+    /* font-family: sans-serif; */
+}
+body{
+    background-image: "C:/Users/Acer/Downloads/a3.jpg";
+}
 table{
     border-collapse: collapse;
-    width: 300px;
+    width: 500px;
+    height: 350px;
     margin: 0 auto;
 }
 th, td {
@@ -20,4 +27,14 @@ form{
 select {
     height: 30px; 
     width: 150px; 
+}
+.days th{
+    padding: 12px 15px 14px 19px;
+}
+.show-all{
+    margin-top:10px;
+}
+.years, .months, .today{
+    margin-top:5px;
+    margin-bottom:5px;
 }
