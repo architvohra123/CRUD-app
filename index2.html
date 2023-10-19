@@ -11,6 +11,20 @@
 <body>
    <div class="container">
         <h1>Calendar</h1>
+
+        <div class="years">
+            <label for="year-select">Select Year:</label>
+            <select id="year-select"></select>
+        </div>
+
+        <div class="months">
+            <label for="month-select">Select Year:</label>
+            <select id="month-select"></select>
+        </div>
+        <div class="today">
+            <button id="today">View Today</button>
+        </div>
+
         <div class="table">
             <table>
                 <thead>
@@ -50,6 +64,15 @@
             </form>
         </div>
     </div> 
+    
+    <button onclick="viewAllEvents()">Show All Events</button>
+    <script>
+        function viewAllEvents() {
+            window.location.href = 'events.html';
+        }
+    </script>
+
+
     <script src="script2.js"></script>
    
 </body>

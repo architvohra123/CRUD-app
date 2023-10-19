@@ -17,3 +17,7 @@ td, #left-month, #right-month{
 form{
     display: none;
 }
+select {
+    height: 30px; 
+    width: 150px; 
+}

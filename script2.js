@@ -1,11 +1,109 @@
-const currentDate = new Date();
-let year=currentDate.getFullYear();
-let month= currentDate.getMonth()+1;
-let prevD=null;
-const hasEvent = {};
-let currSelected=null;
+//////////////////////////////////    MAIN JAVASCRIPT    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+const currentDate = new Date();             //Inbuilt consructor function Date() to create an object
+let year=currentDate.getFullYear();         //int year is fetched
+let month= currentDate.getMonth()+1;        //int month is fetched
+let prevD=null;                             //previous selected (green) date
+let hasEvent = {};                          //Hash set/array to check if any date has an event or not (true/false)
+let eventData = {};                         //hash map/ to store event corresponding to its date as key
+let currSelected=null;                      // currently selected date
+const monthNames= ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+function saveToLocalStorage() {                                             //updation of local storage
+    localStorage.setItem('hasEvent', JSON.stringify(hasEvent));             
+    localStorage.setItem('eventData', JSON.stringify(eventData));
+}
+
+function loadFromLocalStorage() {                                           //fetch data stored in local storage to global ds: hasEvent[] and eventData[]
+    const hasEventData = localStorage.getItem('hasEvent');              
+    const eventDataData = localStorage.getItem('eventData');
+
+    //assigning the fetched data
+    if (hasEventData) {
+        hasEvent = JSON.parse(hasEventData);
+    }
+
+    if (eventDataData) {
+        eventData = JSON.parse(eventDataData);
+    }
+}
+
+// Load data from local storage when the page loads
+loadFromLocalStorage();
+
+// Update local storage whenever 'hasEvent' or 'eventData' change
+function updateLocalStorage() {
+    saveToLocalStorage();
+}
+
+
+
+
+// Get references to the year-select and month-select elements
+const yearSelect = document.getElementById("year-select");
+const monthSelect = document.getElementById("month-select");
+
+// Function to populate the year drop-down list
+function populateYearSelect() {
+    const startYear = year-30; // Set the start year as per your requirements
+    const currentYear = year;
+
+    // Clear existing options
+    yearSelect.innerHTML = '';
+
+    // Add options for each year in the range
+    for (let y = startYear; y <= currentYear+30; y++) {
+        const option = document.createElement("option");
+        option.value = y;
+        option.textContent = y;
+        yearSelect.appendChild(option);
+    }
+
+    // Set the selected year to the current year
+    yearSelect.value = currentYear;
+}
+
+// Function to populate the month drop-down list
+function populateMonthSelect() {
+    // const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    // Clear existing options
+    monthSelect.innerHTML = '';
+
+    // Add options for each month
+    for (let month = 1; month <= 12; month++) {
+        const option = document.createElement("option");
+        option.value = month;
+        option.textContent = monthNames[month - 1];
+        monthSelect.appendChild(option);
+    }
+
+    // Set the selected month to the current month (add 1 to get the correct index)
+    monthSelect.value = new Date().getMonth() + 1;
+}
+
+// Call the functions to populate the year and month drop-down lists
+populateYearSelect();
+populateMonthSelect();
+
+
+yearSelect.addEventListener("change", updateCalendar);
+monthSelect.addEventListener("change", updateCalendar);
+
+// Function to update the calendar based on the selected year and month
+function updateCalendar() {
+    const selectedYear = parseInt(yearSelect.value, 10);
+    const selectedMonth = parseInt(monthSelect.value, 10);
+    year=selectedYear;
+    month=selectedMonth;
+    // Update the year and month, then regenerate the calendar
+    generateCalendar(selectedYear, selectedMonth);
+}
+
+
+
 function generateCalendar(year, month){
-    const monthNames= ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const currentDate = new Date();
     const dd=currentDate.getDate();
     const mm=currentDate.getMonth()+1;
@@ -169,7 +267,6 @@ function incMonth(){
     }else generateCalendar(year, ++month);
 }
 
-const eventData = {};
 // Function to display the event form when a date is clicked
 function showEventForm(date) {
     const eventForm = document.getElementById("event-form");
@@ -198,6 +295,7 @@ function showEventForm(date) {
             // Update the event data section after adding an event
             eventDataDisplay.textContent = eventDescription;
             generateCalendar(date.getFullYear(), date.getMonth()+1);
+            updateLocalStorage();
         }
     };
 
@@ -218,4 +316,13 @@ deleteEvent.addEventListener("click", function(){
     eventForm.style.display = "none";
     eventDataDisplay.textContent="Event Deleted";
     generateCalendar(currDate.getFullYear(), currDate.getMonth()+1);
+    saveToLocalStorage();
+});
+
+
+const today=document.getElementById("today");
+today.addEventListener("click", ()=>{
+    year=(new Date()).getFullYear();
+    month=(new Date()).getMonth()+1;
+    generateCalendar(year, month);
 });
