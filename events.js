@@ -36,12 +36,18 @@ function displayEvents() {
         const event = eventData[date];
         const eventItem = document.createElement('div');
         eventItem.innerHTML = `
-            <div style="background-color: #D3D3D3; border-radius:2%; height:125px; width:75%; margin-left:3%; padding: 5px;">
-                <h5>Date: ${date}</h5>
-                <h5>Event: ${event}</h5>
-                <button class="update-event btn btn-warning" data-date="${date}">Update</button>
-                <button class="delete-event btn btn-danger" data-date="${date}">Delete</button>
-            </div><hr>
+            <div class="my-3">
+                <div class="row justify-content-between p-3 rounded" style="background-color:#D3D3D3; overflow:hidden;">
+                    <div class="col-md-3">
+                        <h5>Date: ${date}</h5>
+                        <h5>Event: ${event}</h5>
+                    </div>
+                    <div class="col-md-2 my-2">
+                        <button class="update-event btn btn-warning" data-date="${date}">Update</button>
+                        <button class="delete-event btn btn-danger" data-date="${date}">Delete</button>
+                    </div>
+                </div>  
+            </div>
         `;
 
         // Add event listeners for update and delete buttons
@@ -60,7 +66,9 @@ function updateEvent(event) {
     const date = event.target.getAttribute('data-date');
     const updatedEvent = prompt(`Update the event for ${date}:`, eventData[date]);
     
-    if (updatedEvent !== null) {
+    if (updatedEvent == "") {
+        alert("Event can not be Nothing");
+    }else{
         eventData[date] = updatedEvent;
         saveToLocalStorage();
         displayEvents();

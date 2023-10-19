@@ -7,13 +7,24 @@
     <title>All Events</title>
 </head>
 <body>
-    <h1>All Events</h1>
-    <div id="events-list">
-        <!-- Event list will be displayed here -->
+    <div class="container">
+        <div class="row justify-content-around p-3">
+            <div class="col-md-4">
+                <h1>All Events</h1>
+                
+            </div>
+            <div class="col-md-3">
+                <button onclick="goToCalendar()" class="btn btn-success btn-lg">Go Back to Calendar</button>
+            </div>
+        </div>
+
+
+        <div id="events-list" class="container">
+            <!-- Event list will be displayed here -->
+        </div>
+        
     </div>
-
-
-    <button onclick="goToCalendar()" class="btn btn-success">Go Back to Calendar</button>
+    
     <script src="events.js"></script>
 </body>
 </html>

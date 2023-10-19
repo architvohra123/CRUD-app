@@ -1,13 +1,12 @@
 
-body{
+/* body{
     background-image: url('a3.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-}
+} */
 table{
     border-collapse: collapse;
-    width: 500px;
-    height: 350px;
+    width: 38rem;
     margin: 0 auto;
 }
 th, td {
@@ -23,10 +22,6 @@ td, #left-month, #right-month{
 }
 form{
     display: none;
-}
-select {
-    height: 30px; 
-    width: 150px; 
 }
 .days th{
     padding: 12px 15px 14px 19px;

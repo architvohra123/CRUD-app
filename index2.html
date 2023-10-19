@@ -8,64 +8,86 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
-<body>
+<body class="border">
+
    <div class="container">
-        <h1>Calendar</h1>
-
-        <div class="years">
-            <label for="year-select">Select Year:</label>
-            <select id="year-select"></select>
-        </div>
-
-        <div class="months">
-            <label for="month-select">Select Year:</label>
-            <select id="month-select"></select>
-        </div>
-        <div class="today">
-            <button id="today"class="btn btn-primary">View Today</button>
-        </div>
-
-        <div class="table">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="1"><i class="bi bi-arrow-left" id="left-month" onclick="decMonth()"></i></th>
-                        <th colspan="5" style="text-align: center" id="month-year">October 2023</th>
-                        <th colspan="1"><i class="bi bi-arrow-right" id="right-month" onclick="incMonth()"></i></th>
-                    </tr>
-                    <tr class="days">
-                        <th>Sun</th>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thu</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
-                    </tr>
-                </thead>
-                <tbody id="calendar-body"></tbody>
-            </table>
-        </div>
-
-        <div id="event-display">
-            <h2 id="selected" style="background-color: yellowgreen;">Add Event to any date</h2>
-            <h5 id="event-data"></h5>
+        <div class="text-center">
+            <h1>Calendar</h1>
         </div>
         
+        <div class="row">
 
-        <div class="form">
-            <form id="event-form">
-                <div class="mb-3">
-                  <label for="event-input" class="form-label">Enter Event To Save...</label>
-                  <input type="text" class="form-control" id="event-input">
+            <div class="years col-md-4">
+                <label for="year-select">Select Year:</label>
+                <select id="year-select" class="form-select form-select-lg mb-3"></select>
+            </div>
+
+            <div class="months col-md-4">
+                <label for="month-select">Select Month:</label>
+                <select id="month-select" class="form-select form-select-lg mb-3"></select>
+            </div>
+
+            <div class="today col-md-4 my-4" >
+                <button id="today"class="btn btn-primary btn-lg">View Today</button>
+            </div>
+            
+            
+        </div>
+
+        <div class="row rounded-30" style="border-radius: 15px;">
+            
+
+
+            <div class="formAndDis col-md-3 text-light py-4" style="background-color: #2ECC71; border-radius: 15px; border: 1px solid black;">
+                <div id="event-display">
+                    <h2 id="selected">Add Event to any date</h2>
+                    <h5 id="event-data" style="overflow: hidden;"></h5>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button class="btn btn-danger" id="deleteEvent">Delete</button>
-            </form>
+                
+
+                <div class="form form-group">
+                    <form id="event-form">
+                        <div class="mb-3">
+                        <label for="event-input" class="form-label">Enter Event To Save...</label>
+                        <textarea type="text" class="form-control" id="event-input"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button class="btn btn-danger" id="deleteEvent">Delete</button>
+                    </form>
+                </div>
+                <div class="show-all">
+                    <button onclick="viewAllEvents()" class="btn btn-success btn-lg">Show All Events</button>
+                </div>
+            </div>
+
+            <div class="col-md-6">       
+                <div class="table " style="font-size: 1.5rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="1" style="text-align: center"><i class="bi bi-arrow-left" id="left-month" onclick="decMonth()"></i></th>
+                                <th colspan="5" style="text-align: center" id="month-year">October 2023</th>
+                                <th colspan="1" style="text-align: center"><i class="bi bi-arrow-right" id="right-month" onclick="incMonth()"></i></th>
+                            </tr>
+                            <tr class="days">
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-        <div class="show-all">
-            <button onclick="viewAllEvents()" class="btn btn-success">Show All Events</button>
-        </div>
+
+        
+        
     </div> 
     
     
