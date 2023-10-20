@@ -3,7 +3,8 @@
 const currentDate = new Date();             //Inbuilt consructor function Date() to create an object
 let year=currentDate.getFullYear();         //int year is fetched
 let month= currentDate.getMonth()+1;        //int month is fetched
-let prevD=null;                             //previous selected (green) date
+let prevD=null;
+let wasSun=false;                             //previous selected (green) date
 let hasEvent = {};                          //Hash set/array to check if any date has an event or not (true/false)
 let eventData = {};                         //hash map/ to store event corresponding to its date as key
 let currSelected=null;                      // currently selected date
@@ -179,10 +180,10 @@ function generateCalendar(year, month){                                 // gener
             hoverIn(cell);
         });
         cell.addEventListener("click", function() {
-            clickCell(cell, i, dd, mm, yy);
+            clickCell(cell, dd, mm, yy);
         });
         cell.addEventListener("mouseout", function(){
-            hoverOut(cell, i, dd, mm, yy);
+            hoverOut(cell, dd, mm, yy);
         });
     }
     
@@ -193,33 +194,28 @@ function generateCalendar(year, month){                                 // gener
     }
 }
 
-function hoverOut(cell, i, dd, mm, yy){
-    if(cell.style.backgroundColor=="lime") return;
-    cell.style.backgroundColor = "";
-    cell.style.color = "";
-    if(i%7==0){
-        cell.style.color="red";
-    }
-    if(cell.textContent==dd && month==mm && yy==year){
-        cell.style.backgroundColor="#D3D3D3";
-    }
-}
 
 function hoverIn(cell){
-    if(cell.style.backgroundColor=="lime") return;
+    if(cell.style.backgroundColor=="chocolate") return;
     cell.style.backgroundColor = "blue";
     cell.style.color = "white";
 }
 
-function clickCell(cell, i, dd, mm, yy){
+function clickCell(cell, dd, mm, yy){
+    let isSun=true;
+    if((new Date(year, month-1, cell.textContent)).getDay()==0){
+        isSun=true;
+    }else{
+        isSun=false;
+    }
     currSelected=cell.textContent;
     const selected=document.getElementById("selected");
     selected.innerHTML=`Event Data for ${year} ${monthNames[month-1]} ${cell.textContent}`;
-    cell.style.backgroundColor="lime";
+    cell.style.backgroundColor="chocolate";
     if(prevD!=null && prevD!=cell){
         prevD.style.backgroundColor = "";
         prevD.style.color = "";
-        if((i-(cell.textContent-prevD.textContent))%7==0){
+        if(wasSun){
             prevD.style.color="red";
         }
         if(prevD.textContent==dd && month==mm && yy==year){
@@ -227,26 +223,38 @@ function clickCell(cell, i, dd, mm, yy){
         }
     }
     prevD=cell;
+    wasSun=isSun;
     showEventForm(new Date(year, month - 1, cell.textContent));
+}
+
+function hoverOut(cell, dd, mm, yy){
+    if(cell.style.backgroundColor=="chocolate") return;
+    cell.style.backgroundColor = "";
+    cell.style.color = "";
+    if((new Date(year, month-1, cell.textContent)).getDay()==0){
+        cell.style.color="red";
+    }
+    if(cell.textContent==dd && month==mm && yy==year){
+        cell.style.backgroundColor="#D3D3D3";
+    }
 }
 
 document.onload = generateCalendar(year, month);
 
-function decMonth(){
+function decMonth(){                                                    // decrease month by 1
     if(month==1){
         month=12;
         generateCalendar(--year, month);
     }else generateCalendar(year, --month);
 }
-function incMonth(){
+function incMonth(){                                                    // increase month by 1
     if(month==12){
         month=1;
         generateCalendar(++year, month);
     }else generateCalendar(year, ++month);
 }
 
-// Function to display the event form when a date is clicked
-function showEventForm(date) {
+function showEventForm(date) {                                          // display the event form when a date is clicked
     const eventForm = document.getElementById("event-form");
     const eventInput = document.getElementById("event-input");
     const eventDataDisplay = document.getElementById("event-data");
@@ -304,3 +312,7 @@ today.addEventListener("click", ()=>{
     month=(new Date()).getMonth()+1;
     generateCalendar(year, month);
 });
+
+function viewAllEvents() {
+    window.location.href = '../Event-Page/events.html';
+}

@@ -1,3 +1,5 @@
+/////////////////////////////// Evnets list handling script \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 let hasEvent=null;
 let eventData=null;
 
@@ -90,5 +92,5 @@ function deleteEvent(event) {
 displayEvents();
 
 function goToCalendar() {
-    window.location.href = 'index2.html';
+    window.location.href = '../Main-Page/mainIndex.html';
 }
