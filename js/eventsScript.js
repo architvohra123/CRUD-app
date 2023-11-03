@@ -92,5 +92,5 @@ function deleteEvent(event) {
 displayEvents();
 
 function goToCalendar() {
-    window.location.href = '../Main-Page/mainIndex.html';
+    window.location.href = '../index.html';
 }

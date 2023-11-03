@@ -314,5 +314,5 @@ today.addEventListener("click", ()=>{
 });
 
 function viewAllEvents() {
-    window.location.href = '../Event-Page/events.html';
+    window.location.href = '../events.html';
 }
