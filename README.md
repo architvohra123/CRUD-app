@@ -20,7 +20,7 @@ To get started with Occ-Save, follow these steps:
 ```bash
 git clone https://github.com/architvohra123/Occ-Save.git
 ```
-- Open the mainIndex.html file in Main-Page folder in your web browser to access the website.
+- Open the index.html file in root directory in any web browser to access the web-app.
 
 
 
